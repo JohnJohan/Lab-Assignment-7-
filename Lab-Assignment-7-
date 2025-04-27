@@ -1,0 +1,189 @@
+// Document interface
+interface Document extends Cloneable {
+    Document clone();
+    void open();
+    String getType();
+}
+
+// PdfDocument class
+class PdfDocument implements Document {
+    private String fileName;
+    private String author;
+    private int pageCount;
+
+    public PdfDocument(String fileName, String author, int pageCount) {
+        this.fileName = fileName;
+        this.author = author;
+        this.pageCount = pageCount;
+    }
+
+    @Override
+    public Document clone() {
+        return new PdfDocument(this.fileName, this.author, this.pageCount);
+    }
+
+    @Override
+    public void open() {
+        System.out.printf("Opening PDF Document: %s by %s (%d pages)\n", fileName, author, pageCount);
+        System.out.printf("Type: PDF, File: %s, Author: %s, Pages: %d\n", fileName, author, pageCount);
+    }
+
+    @Override
+    public String getType() {
+        return "PDF";
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
+}
+
+// TextDocument class
+class TextDocument implements Document {
+    private String filePath;
+    private String encoding;
+    private int wordCount;
+
+    public TextDocument(String filePath, String encoding, int wordCount) {
+        this.filePath = filePath;
+        this.encoding = encoding;
+        this.wordCount = wordCount;
+    }
+
+    @Override
+    public Document clone() {
+        return new TextDocument(this.filePath, this.encoding, this.wordCount);
+    }
+
+    @Override
+    public void open() {
+        System.out.printf("Opening Text Document: %s with encoding: %s (%d words)\n", filePath, encoding, wordCount);
+        System.out.printf("Type: Text, Path: %s, Encoding: %s, Words: %d\n", filePath, encoding, wordCount);
+    }
+
+    @Override
+    public String getType() {
+        return "Text";
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    public void setWordCount(int wordCount) {
+        this.wordCount = wordCount;
+    }
+}
+
+// SpreadsheetDocument class
+class SpreadsheetDocument implements Document {
+    private String spreadsheetName;
+    private int rowCount;
+    private int columnCount;
+
+    public SpreadsheetDocument(String spreadsheetName, int rowCount, int columnCount) {
+        this.spreadsheetName = spreadsheetName;
+        this.rowCount = rowCount;
+        this.columnCount = columnCount;
+    }
+
+    @Override
+    public Document clone() {
+        return new SpreadsheetDocument(this.spreadsheetName, this.rowCount, this.columnCount);
+    }
+
+    @Override
+    public void open() {
+        System.out.printf("Opening Spreadsheet Document: %s (%d rows, %d columns)\n", 
+                         spreadsheetName, rowCount, columnCount);
+        System.out.printf("Type: Spreadsheet, Name: %s, Rows: %d, Columns: %d\n", 
+                         spreadsheetName, rowCount, columnCount);
+    }
+
+    @Override
+    public String getType() {
+        return "Spreadsheet";
+    }
+
+    public void setSpreadsheetName(String spreadsheetName) {
+        this.spreadsheetName = spreadsheetName;
+    }
+
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
+    }
+
+    public void setColumnCount(int columnCount) {
+        this.columnCount = columnCount;
+    }
+}
+
+// DocumentRegistry class
+class DocumentRegistry {
+    private PdfDocument pdfPrototype;
+    private TextDocument textDocumentPrototype;
+    private SpreadsheetDocument spreadsheetPrototype;
+
+    public DocumentRegistry() {
+        System.out.println("Creating a PDF Document prototype.");
+        this.pdfPrototype = new PdfDocument("default.pdf", "Default Author", 0);
+        
+        System.out.println("Creating a Text Document prototype.");
+        this.textDocumentPrototype = new TextDocument("default.txt", "UTF-8", 0);
+        
+        System.out.println("Creating a Spreadsheet Document prototype.");
+        this.spreadsheetPrototype = new SpreadsheetDocument("default.xlsx", 0, 0);
+    }
+
+    public Document createPdfDocument(String fileName, String author, int pageCount) {
+        PdfDocument doc = (PdfDocument) pdfPrototype.clone();
+        doc.setFileName(fileName);
+        doc.setAuthor(author);
+        doc.setPageCount(pageCount);
+        return doc;
+    }
+
+    public Document createTextDocument(String filePath, String encoding, int wordCount) {
+        TextDocument doc = (TextDocument) textDocumentPrototype.clone();
+        doc.setFilePath(filePath);
+        doc.setEncoding(encoding);
+        doc.setWordCount(wordCount);
+        return doc;
+    }
+
+    public Document createSpreadsheetDocument(String name, int rows, int columns) {
+        SpreadsheetDocument doc = (SpreadsheetDocument) spreadsheetPrototype.clone();
+        doc.setSpreadsheetName(name);
+        doc.setRowCount(rows);
+        doc.setColumnCount(columns);
+        return doc;
+    }
+}
+
+// Test class
+public class TestDocument {
+    public static void main(String[] args) {
+        DocumentRegistry registry = new DocumentRegistry();
+        
+        Document pdfDoc = registry.createPdfDocument("annual_report_2024.pdf", "Acme Corp", 150);
+        pdfDoc.open();
+        
+        Document textDoc = registry.createTextDocument("meeting_notes.txt", "UTF-8", 250);
+        textDoc.open();
+        
+        Document spreadsheetDoc = registry.createSpreadsheetDocument("sales_data_q1.xlsx", 1000, 20);
+        spreadsheetDoc.open();
+    }
+}
