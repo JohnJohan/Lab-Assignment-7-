@@ -1,0 +1,41 @@
+class SpreadsheetDocument implements Document {
+    private String spreadsheetName;
+    private int rowCount;
+    private int columnCount;
+
+    public SpreadsheetDocument(String spreadsheetName, int rowCount, int columnCount) {
+        this.spreadsheetName = spreadsheetName;
+        this.rowCount = rowCount;
+        this.columnCount = columnCount;
+    }
+
+    @Override
+    public Document clone() {
+        return new SpreadsheetDocument(this.spreadsheetName, this.rowCount, this.columnCount);
+    }
+
+    @Override
+    public void open() {
+        System.out.printf("Opening Spreadsheet Document: %s (%d rows, %d columns)\n", 
+                         spreadsheetName, rowCount, columnCount);
+        System.out.printf("Type: Spreadsheet, Name: %s, Rows: %d, Columns: %d\n", 
+                         spreadsheetName, rowCount, columnCount);
+    }
+
+    @Override
+    public String getType() {
+        return "Spreadsheet";
+    }
+
+    public void setSpreadsheetName(String spreadsheetName) {
+        this.spreadsheetName = spreadsheetName;
+    }
+
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
+    }
+
+    public void setColumnCount(int columnCount) {
+        this.columnCount = columnCount;
+    }
+}
