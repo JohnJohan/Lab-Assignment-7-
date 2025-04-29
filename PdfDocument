@@ -8,3 +8,32 @@ class PdfDocument implements Document {
         this.author = author;
         this.pageCount = pageCount;
     }
+
+    @Override
+    public Document clone() {
+        return new PdfDocument(this.fileName, this.author, this.pageCount);
+    }
+
+    @Override
+    public void open() {
+        System.out.printf("Opening PDF Document: %s by %s (%d pages)\n", fileName, author, pageCount);
+        System.out.printf("Type: PDF, File: %s, Author: %s, Pages: %d\n", fileName, author, pageCount);
+    }
+
+    @Override
+    public String getType() {
+        return "PDF";
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
+}
