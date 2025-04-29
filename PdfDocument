@@ -1,0 +1,10 @@
+class PdfDocument implements Document {
+    private String fileName;
+    private String author;
+    private int pageCount;
+
+    public PdfDocument(String fileName, String author, int pageCount) {
+        this.fileName = fileName;
+        this.author = author;
+        this.pageCount = pageCount;
+    }
