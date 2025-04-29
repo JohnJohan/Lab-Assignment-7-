@@ -1,0 +1,39 @@
+class TextDocument implements Document {
+    private String filePath;
+    private String encoding;
+    private int wordCount;
+
+    public TextDocument(String filePath, String encoding, int wordCount) {
+        this.filePath = filePath;
+        this.encoding = encoding;
+        this.wordCount = wordCount;
+    }
+
+    @Override
+    public Document clone() {
+        return new TextDocument(this.filePath, this.encoding, this.wordCount);
+    }
+
+    @Override
+    public void open() {
+        System.out.printf("Opening Text Document: %s with encoding: %s (%d words)\n", filePath, encoding, wordCount);
+        System.out.printf("Type: Text, Path: %s, Encoding: %s, Words: %d\n", filePath, encoding, wordCount);
+    }
+
+    @Override
+    public String getType() {
+        return "Text";
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    public void setWordCount(int wordCount) {
+        this.wordCount = wordCount;
+    }
+}
